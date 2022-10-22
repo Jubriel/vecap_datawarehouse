@@ -1,0 +1,188 @@
+[2022-10-22T10:34:21.889+0000] {processor.py:153} INFO - Started process (PID=167) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:21.893+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:34:21.895+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:21.895+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:22.894+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:22.893+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:34:22.902+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:22.902+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:34:22.909+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:23.050+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:23.049+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:34:23.135+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:23.134+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:34:23.331+0000] {logging_mixin.py:115} WARNING - /home/airflow/.local/lib/python3.7/site-packages/airflow/models/dagbag.py:610 DeprecationWarning: DAG.full_filepath is deprecated in favour of fileloc
+[2022-10-22T10:34:23.349+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:23.333+0000] {dagbag.py:610} ERROR - Failed to write serialized DAG: /opt/airflow/dags/init_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 602, in _serialize_dag_capturing_errors
+    session=session,
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 68, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/serialized_dag.py", line 142, in write_dag
+    (timezone.utcnow() - timedelta(seconds=min_update_interval)) < cls.last_updated,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 2810, in first
+    return self.limit(1)._iter().first()
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 2897, in _iter
+    execution_options={"_sa_orm_load_options": self.load_options},
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1688, in execute
+    conn = self._connection_for_bind(bind)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1530, in _connection_for_bind
+    engine, execution_options
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 721, in _connection_for_bind
+    self._assert_active()
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 608, in _assert_active
+    code="7s2a",
+sqlalchemy.exc.PendingRollbackError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "serialized_dag_pkey"
+DETAIL:  Key (dag_id)=(vecap_etl) already exists.
+
+[SQL: INSERT INTO serialized_dag (dag_id, fileloc, fileloc_hash, data, data_compressed, last_updated, dag_hash) VALUES (%(dag_id)s, %(fileloc)s, %(fileloc_hash)s, %(data)s, %(data_compressed)s, %(last_updated)s, %(dag_hash)s)]
+[parameters: {'dag_id': 'vecap_etl', 'fileloc': '/opt/airflow/dags/init_dag.py', 'fileloc_hash': 34783400505417443, 'data': '{"__version": 1, "dag": {"default_args": {"__var": {"owner": "airflow", "start_date": {"__var": 1662595200.0, "__type": "datetime"}, "email": ["admin ... (7332 characters truncated) ... (postgresql+psycopg2://postgres:***@test-vec-app.cxci97ncnvqs.us-east-1.rds.amazonaws.com:5432/analytics)}"}], "dag_dependencies": [], "params": {}}}', 'data_compressed': None, 'last_updated': datetime.datetime(2022, 10, 22, 10, 34, 22, 929123, tzinfo=Timezone('UTC')), 'dag_hash': 'c280280d5a8a76820c8e79b7ea73c230'}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+[2022-10-22T10:34:23.352+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:23.352+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:34:23.356+0000] {processor.py:164} ERROR - Got an exception! Propagating...
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/dag_processing/processor.py", line 158, in _run_file_processor
+    callback_requests=callback_requests,
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/dag_processing/processor.py", line 659, in process_file
+    dagbag.sync_to_db()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 71, in wrapper
+    return func(*args, session=session, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 616, in sync_to_db
+    for attempt in run_with_db_retries(logger=self.log):
+  File "/home/airflow/.local/lib/python3.7/site-packages/tenacity/__init__.py", line 382, in __iter__
+    do = self.iter(retry_state=retry_state)
+  File "/home/airflow/.local/lib/python3.7/site-packages/tenacity/__init__.py", line 349, in iter
+    return fut.result()
+  File "/usr/local/lib/python3.7/concurrent/futures/_base.py", line 428, in result
+    return self.__get_result()
+  File "/usr/local/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 630, in sync_to_db
+    DAG.bulk_write_to_db(self.dags.values(), session=session)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 68, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/dag.py", line 2437, in bulk_write_to_db
+    orm_dags: List[DagModel] = with_row_locks(query, of=DagModel, session=session).all()
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 2759, in all
+    return self._iter().all()
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/query.py", line 2897, in _iter
+    execution_options={"_sa_orm_load_options": self.load_options},
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1688, in execute
+    conn = self._connection_for_bind(bind)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 1530, in _connection_for_bind
+    engine, execution_options
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 721, in _connection_for_bind
+    self._assert_active()
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/orm/session.py", line 608, in _assert_active
+    code="7s2a",
+sqlalchemy.exc.PendingRollbackError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "serialized_dag_pkey"
+DETAIL:  Key (dag_id)=(vecap_etl) already exists.
+
+[SQL: INSERT INTO serialized_dag (dag_id, fileloc, fileloc_hash, data, data_compressed, last_updated, dag_hash) VALUES (%(dag_id)s, %(fileloc)s, %(fileloc_hash)s, %(data)s, %(data_compressed)s, %(last_updated)s, %(dag_hash)s)]
+[parameters: {'dag_id': 'vecap_etl', 'fileloc': '/opt/airflow/dags/init_dag.py', 'fileloc_hash': 34783400505417443, 'data': '{"__version": 1, "dag": {"default_args": {"__var": {"owner": "airflow", "start_date": {"__var": 1662595200.0, "__type": "datetime"}, "email": ["admin ... (7332 characters truncated) ... (postgresql+psycopg2://postgres:***@test-vec-app.cxci97ncnvqs.us-east-1.rds.amazonaws.com:5432/analytics)}"}], "dag_dependencies": [], "params": {}}}', 'data_compressed': None, 'last_updated': datetime.datetime(2022, 10, 22, 10, 34, 22, 929123, tzinfo=Timezone('UTC')), 'dag_hash': 'c280280d5a8a76820c8e79b7ea73c230'}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj) (Background on this error at: https://sqlalche.me/e/14/7s2a)
+[2022-10-22T10:34:53.497+0000] {processor.py:153} INFO - Started process (PID=248) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:53.502+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:34:53.507+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:53.504+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:54.032+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:54.031+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:34:54.036+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:54.036+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:34:54.040+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:34:54.103+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:54.103+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:34:54.126+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:34:54.126+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:34:54.145+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.657 seconds
+[2022-10-22T10:35:24.257+0000] {processor.py:153} INFO - Started process (PID=293) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:24.260+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:35:24.262+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:24.262+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:24.989+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:24.988+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:35:24.996+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:24.995+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:35:25.002+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:25.028+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:25.028+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:35:25.102+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:25.102+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:35:25.120+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.872 seconds
+[2022-10-22T10:35:55.266+0000] {processor.py:153} INFO - Started process (PID=331) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:55.268+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:35:55.270+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:55.270+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:55.844+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:55.843+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:35:55.851+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:55.850+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:35:55.860+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:35:55.965+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:55.965+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:35:55.991+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:35:55.991+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:35:56.015+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.754 seconds
+[2022-10-22T10:36:26.125+0000] {processor.py:153} INFO - Started process (PID=369) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:26.129+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:36:26.131+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:26.131+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:26.729+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:26.728+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:36:26.734+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:26.733+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:36:26.738+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:26.760+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:26.759+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:36:26.799+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:26.798+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:36:26.829+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.709 seconds
+[2022-10-22T10:36:56.997+0000] {processor.py:153} INFO - Started process (PID=401) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:56.999+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:36:57.001+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:57.001+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:57.587+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:57.587+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:36:57.593+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:57.592+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:36:57.597+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:36:57.676+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:57.676+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:36:57.702+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:36:57.702+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:36:57.720+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.727 seconds
+[2022-10-22T10:37:27.800+0000] {processor.py:153} INFO - Started process (PID=440) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:27.803+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:37:27.805+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:27.805+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:28.372+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:28.372+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:37:28.377+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:28.377+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:37:28.382+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:28.403+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:28.402+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:37:28.434+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:28.434+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:37:28.448+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.653 seconds
+[2022-10-22T10:37:58.613+0000] {processor.py:153} INFO - Started process (PID=470) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:58.615+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:37:58.618+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:58.618+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:59.157+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:59.157+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:37:59.163+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:59.162+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:37:59.167+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:37:59.247+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:59.246+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:37:59.273+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:37:59.273+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:37:59.292+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.684 seconds
+[2022-10-22T10:38:29.388+0000] {processor.py:153} INFO - Started process (PID=509) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:38:29.390+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:38:29.392+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:38:29.391+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:38:29.929+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:38:29.929+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:38:29.934+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:38:29.934+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:38:29.939+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:38:29.967+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:38:29.966+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:38:30.004+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:38:30.004+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:38:30.016+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.641 seconds
+[2022-10-22T10:39:00.294+0000] {processor.py:153} INFO - Started process (PID=548) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:00.304+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:39:00.316+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:00.315+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:01.402+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:01.401+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:39:01.408+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:01.408+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:39:01.414+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:01.506+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:01.505+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:39:01.533+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:01.533+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:39:01.553+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 1.282 seconds
+[2022-10-22T10:39:31.657+0000] {processor.py:153} INFO - Started process (PID=578) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:31.659+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:39:31.661+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:31.661+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:32.167+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:32.166+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:39:32.173+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:32.173+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:39:32.179+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:39:32.208+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:32.207+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:39:32.235+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:39:32.235+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:39:32.249+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.599 seconds
+[2022-10-22T10:40:02.439+0000] {processor.py:153} INFO - Started process (PID=617) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:02.441+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:40:02.443+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:02.443+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:03.085+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:03.084+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:40:03.092+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:03.092+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:40:03.098+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:03.188+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:03.187+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:40:03.216+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:03.216+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:40:03.240+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.810 seconds
+[2022-10-22T10:40:33.371+0000] {processor.py:153} INFO - Started process (PID=648) to work on /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:33.373+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/init_dag.py for tasks to queue
+[2022-10-22T10:40:33.375+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:33.374+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:33.885+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:33.884+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-10-22T10:40:33.891+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:33.890+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-10-22T10:40:33.895+0000] {processor.py:650} INFO - DAG(s) dict_keys(['vecap_etl']) retrieved from /opt/airflow/dags/init_dag.py
+[2022-10-22T10:40:33.916+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:33.916+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-10-22T10:40:33.965+0000] {logging_mixin.py:115} INFO - [2022-10-22T10:40:33.965+0000] {dag.py:2981} INFO - Setting next_dagrun for vecap_etl to None, run_after=None
+[2022-10-22T10:40:33.985+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/init_dag.py took 0.619 seconds

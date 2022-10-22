@@ -8,7 +8,7 @@ from airflow.hooks.base_hook import BaseHook
 
 from datetime import datetime
 
-from ETL import *
+from ETL_c import *
 
 # POSTGRRES_CONN_ID = "vecap_source"
 # POSTGRRES_CONN_ID2 = "vecap_target"

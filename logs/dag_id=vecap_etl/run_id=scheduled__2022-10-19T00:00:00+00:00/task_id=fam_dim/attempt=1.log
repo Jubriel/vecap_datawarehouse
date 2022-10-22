@@ -1,0 +1,131 @@
+[2022-10-22T10:34:34.140+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim scheduled__2022-10-19T00:00:00+00:00 [queued]>
+[2022-10-22T10:34:34.218+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim scheduled__2022-10-19T00:00:00+00:00 [queued]>
+[2022-10-22T10:34:34.220+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-22T10:34:34.223+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-22T10:34:34.225+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-22T10:34:34.293+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): fam_dim> on 2022-10-19 00:00:00+00:00
+[2022-10-22T10:34:34.315+0000] {standard_task_runner.py:52} INFO - Started process 221 to run task
+[2022-10-22T10:34:34.357+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'fam_dim', 'scheduled__2022-10-19T00:00:00+00:00', '--job-id', '255', '--raw', '--subdir', 'DAGS_FOLDER/cont_load.py', '--cfg-path', '/tmp/tmpsrcasvdz', '--error-file', '/tmp/tmpsfsxo8xz']
+[2022-10-22T10:34:34.362+0000] {standard_task_runner.py:80} INFO - Job 255: Subtask fam_dim
+[2022-10-22T10:34:34.682+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.fam_dim scheduled__2022-10-19T00:00:00+00:00 [running]> on host a41ad1c55a2c
+[2022-10-22T10:34:34.959+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=fam_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-19T00:00:00+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2022-10-19T00:00:00+00:00
+[2022-10-22T10:34:58.563+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1803, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.ForeignKeyViolation: update or delete on table "fam_dim" violates foreign key constraint "person_dim_fk1" on table "person_dim"
+DETAIL:  Key (fam_key)=(1) is still referenced from table "person_dim".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/airflow/dags/ETL.py", line 201, in fam_dim
+    target.execute("delete from rccghge.fam_dim;")
+  File "<string>", line 2, in execute
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/util/deprecations.py", line 401, in warned
+    return fn(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 3139, in execute
+    return connection.execute(statement, *multiparams, **params)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1279, in execute
+    future=False,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1585, in _exec_driver_sql
+    distilled_parameters,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2027, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1803, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.ForeignKeyViolation) update or delete on table "fam_dim" violates foreign key constraint "person_dim_fk1" on table "person_dim"
+DETAIL:  Key (fam_key)=(1) is still referenced from table "person_dim".
+
+[SQL: delete from rccghge.fam_dim;]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1783, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 957, in do_executemany
+    **kwargs
+  File "/home/airflow/.local/lib/python3.7/site-packages/psycopg2/extras.py", line 1270, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.UndefinedColumn: column "fam_id" of relation "person_dim" does not exist
+LINE 1: INSERT INTO rccghge.person_dim (fam_key, fam_id, fam_name, n...
+                                                 ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/ETL.py", line 208, in fam_dim
+    fam.to_sql('person_dim', con=target ,schema = sch, if_exists ='append', index=False)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/generic.py", line 2882, in to_sql
+    method=method,
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 728, in to_sql
+    **engine_kwargs,
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 1770, in to_sql
+    **engine_kwargs,
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 1350, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 1340, in insert_records
+    table.insert(chunksize=chunksize, method=method)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 967, in insert
+    exec_insert(conn, keys, chunk_iter)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 882, in _execute_insert
+    conn.execute(self.table.insert(), data)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1289, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/sql/elements.py", line 326, in _execute_on_connection
+    self, multiparams, params, execution_options
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1491, in _execute_clauseelement
+    cache_hit=cache_hit,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2027, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1783, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 957, in do_executemany
+    **kwargs
+  File "/home/airflow/.local/lib/python3.7/site-packages/psycopg2/extras.py", line 1270, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "fam_id" of relation "person_dim" does not exist
+LINE 1: INSERT INTO rccghge.person_dim (fam_key, fam_id, fam_name, n...
+                                                 ^
+
+[SQL: INSERT INTO rccghge.person_dim (fam_key, fam_id, fam_name, no_fam_members, geography_key, fam_city, fam_wedding_date, fam_date_created, load_date) VALUES (%(fam_key)s, %(fam_id)s, %(fam_name)s, %(no_fam_members)s, %(geography_key)s, %(fam_city)s, %(fam_wedding_date)s, %(fam_date_created)s, %(load_date)s)]
+[parameters: ({'fam_key': 1, 'fam_id': UUID('029277db-b2ae-4960-86e8-3b7a4c1b42d8'), 'fam_name': 'Suleiman', 'no_fam_members': 1, 'geography_key': 2, 'fam_city': 'Lagos', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 8, 54, 1, 778000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 2, 'fam_id': UUID('50bc99f0-d3d7-40dd-bdc7-ee948c5e264c'), 'fam_name': 'Ogedengbe', 'no_fam_members': 2, 'geography_key': 2, 'fam_city': 'Ikorodu', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 9, 18, 8, 755000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 3, 'fam_id': UUID('d22b897b-9118-413c-b416-b2cf1ef8731a'), 'fam_name': 'Akindele', 'no_fam_members': 3, 'geography_key': 6, 'fam_city': 'ipaja', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 14, 20, 25, 461000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 4, 'fam_id': UUID('75fd9687-acc2-4ac5-8bfc-f0e7857e56d1'), 'fam_name': 'Chukwu', 'no_fam_members': 1, 'geography_key': 6, 'fam_city': 'yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 6, 4, 51, 3, 66000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 5, 'fam_id': UUID('b455523a-a645-4f55-b840-9939c853978d'), 'fam_name': 'Reagan', 'no_fam_members': 1, 'geography_key': 6, 'fam_city': 'Ikeja', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 12, 10, 48, 37, 72000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 6, 'fam_id': UUID('a6ede27e-6c78-4cca-9466-8b1d85b90402'), 'fam_name': 'Sam', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 19, 2, 2, 25, 981000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 7, 'fam_id': UUID('c35c7364-645f-4184-afc3-0ca43399bd6a'), 'fam_name': 'Stone', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 1, 21, 18, 476000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 8, 'fam_id': UUID('28f1af9e-79be-4ab7-8902-2cdd38f6bce4'), 'fam_name': 'Sam', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 7, 59, 27, 976000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}  ... displaying 10 of 15 total bound parameter sets ...  {'fam_key': 14, 'fam_id': UUID('a091e514-3fec-4afa-a775-3ef88adcec5e'), 'fam_name': 'Sam', 'no_fam_members': 2, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 11, 34, 13, 481000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 15, 'fam_id': UUID('aebecce9-949e-41ae-8c6b-48bffab2394b'), 'fam_name': 'Stone', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 11, 44, 11, 23000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2022-10-22T10:34:58.595+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=fam_dim, execution_date=20221019T000000, start_date=20221022T103434, end_date=20221022T103458
+[2022-10-22T10:34:58.616+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 255 for task fam_dim ((psycopg2.errors.UndefinedColumn) column "fam_id" of relation "person_dim" does not exist
+LINE 1: INSERT INTO rccghge.person_dim (fam_key, fam_id, fam_name, n...
+                                                 ^
+
+[SQL: INSERT INTO rccghge.person_dim (fam_key, fam_id, fam_name, no_fam_members, geography_key, fam_city, fam_wedding_date, fam_date_created, load_date) VALUES (%(fam_key)s, %(fam_id)s, %(fam_name)s, %(no_fam_members)s, %(geography_key)s, %(fam_city)s, %(fam_wedding_date)s, %(fam_date_created)s, %(load_date)s)]
+[parameters: ({'fam_key': 1, 'fam_id': UUID('029277db-b2ae-4960-86e8-3b7a4c1b42d8'), 'fam_name': 'Suleiman', 'no_fam_members': 1, 'geography_key': 2, 'fam_city': 'Lagos', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 8, 54, 1, 778000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 2, 'fam_id': UUID('50bc99f0-d3d7-40dd-bdc7-ee948c5e264c'), 'fam_name': 'Ogedengbe', 'no_fam_members': 2, 'geography_key': 2, 'fam_city': 'Ikorodu', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 9, 18, 8, 755000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 3, 'fam_id': UUID('d22b897b-9118-413c-b416-b2cf1ef8731a'), 'fam_name': 'Akindele', 'no_fam_members': 3, 'geography_key': 6, 'fam_city': 'ipaja', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 5, 14, 20, 25, 461000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 4, 'fam_id': UUID('75fd9687-acc2-4ac5-8bfc-f0e7857e56d1'), 'fam_name': 'Chukwu', 'no_fam_members': 1, 'geography_key': 6, 'fam_city': 'yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 6, 4, 51, 3, 66000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 5, 'fam_id': UUID('b455523a-a645-4f55-b840-9939c853978d'), 'fam_name': 'Reagan', 'no_fam_members': 1, 'geography_key': 6, 'fam_city': 'Ikeja', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 12, 10, 48, 37, 72000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 6, 'fam_id': UUID('a6ede27e-6c78-4cca-9466-8b1d85b90402'), 'fam_name': 'Sam', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 19, 2, 2, 25, 981000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 7, 'fam_id': UUID('c35c7364-645f-4184-afc3-0ca43399bd6a'), 'fam_name': 'Stone', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 1, 21, 18, 476000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 8, 'fam_id': UUID('28f1af9e-79be-4ab7-8902-2cdd38f6bce4'), 'fam_name': 'Sam', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 7, 59, 27, 976000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}  ... displaying 10 of 15 total bound parameter sets ...  {'fam_key': 14, 'fam_id': UUID('a091e514-3fec-4afa-a775-3ef88adcec5e'), 'fam_name': 'Sam', 'no_fam_members': 2, 'geography_key': 1, 'fam_city': 'Kumasi', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 11, 34, 13, 481000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)}, {'fam_key': 15, 'fam_id': UUID('aebecce9-949e-41ae-8c6b-48bffab2394b'), 'fam_name': 'Stone', 'no_fam_members': 1, 'geography_key': 1, 'fam_city': 'Yaba', 'fam_wedding_date': datetime.date(2022, 10, 22), 'fam_date_created': datetime.datetime(2022, 10, 21, 11, 44, 11, 23000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 22, 10, 34, 54, 986281)})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 221)
+[2022-10-22T10:34:58.656+0000] {local_task_job.py:156} INFO - Task exited with return code 1
