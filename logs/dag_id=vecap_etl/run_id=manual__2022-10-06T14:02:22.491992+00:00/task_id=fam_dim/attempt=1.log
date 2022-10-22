@@ -1,0 +1,30 @@
+[2022-10-06T14:02:43.314+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T14:02:22.491992+00:00 [queued]>
+[2022-10-06T14:02:43.329+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T14:02:22.491992+00:00 [queued]>
+[2022-10-06T14:02:43.331+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:02:43.331+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-06T14:02:43.332+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:02:43.353+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): fam_dim> on 2022-10-06 14:02:22.491992+00:00
+[2022-10-06T14:02:43.360+0000] {standard_task_runner.py:52} INFO - Started process 4507 to run task
+[2022-10-06T14:02:43.365+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'fam_dim', 'manual__2022-10-06T14:02:22.491992+00:00', '--job-id', '205', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpgkgecj_7', '--error-file', '/tmp/tmp9kl51a4p']
+[2022-10-06T14:02:43.369+0000] {standard_task_runner.py:80} INFO - Job 205: Subtask fam_dim
+[2022-10-06T14:02:43.490+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T14:02:22.491992+00:00 [running]> on host a41ad1c55a2c
+[2022-10-06T14:02:43.606+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=fam_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-06T14:02:22.491992+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-06T14:02:22.491992+00:00
+[2022-10-06T14:02:56.210+0000] {logging_mixin.py:115} INFO - Data extract error: (psycopg2.errors.InvalidTextRepresentation) invalid input syntax for type numeric: "NA"
+LINE 1: ...b-b2ae-4960-86e8-3b7a4c1b42d8'::uuid, 'Suleiman', 'NA', 73, ...
+                                                             ^
+
+[SQL: INSERT INTO rccghge.fam_dim (fam_id, fam_name, no_fam_members, geography_key, fam_city, fam_wedding_date, fam_date_created, load_date) VALUES (%(fam_id)s, %(fam_name)s, %(no_fam_members)s, %(geography_key)s, %(fam_city)s, %(fam_wedding_date)s, %(fam_date_created)s, %(load_date)s)]
+[parameters: ({'fam_id': UUID('029277db-b2ae-4960-86e8-3b7a4c1b42d8'), 'fam_name': 'Suleiman', 'no_fam_members': 'NA', 'geography_key': 73, 'fam_city': 'Lagos', 'fam_wedding_date': 'NA', 'fam_date_created': datetime.datetime(2022, 10, 5, 8, 54, 1, 778000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 6, 14, 2, 53, 763810)}, {'fam_id': UUID('50bc99f0-d3d7-40dd-bdc7-ee948c5e264c'), 'fam_name': 'Ogedengbe', 'no_fam_members': 'NA', 'geography_key': 73, 'fam_city': 'Ikorodu', 'fam_wedding_date': 'NA', 'fam_date_created': datetime.datetime(2022, 10, 5, 9, 18, 8, 755000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 6, 14, 2, 53, 763810)}, {'fam_id': UUID('d22b897b-9118-413c-b416-b2cf1ef8731a'), 'fam_name': 'Akindele', 'no_fam_members': 'NA', 'geography_key': 74, 'fam_city': 'ipaja', 'fam_wedding_date': 'NA', 'fam_date_created': datetime.datetime(2022, 10, 5, 14, 20, 25, 461000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 6, 14, 2, 53, 763810)}, {'fam_id': UUID('75fd9687-acc2-4ac5-8bfc-f0e7857e56d1'), 'fam_name': 'Chukwu', 'no_fam_members': 'NA', 'geography_key': 74, 'fam_city': 'yaba', 'fam_wedding_date': 'NA', 'fam_date_created': datetime.datetime(2022, 10, 6, 4, 51, 3, 66000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 6, 14, 2, 53, 763810)}, {'fam_id': UUID('fbb7b728-e419-4740-9c9d-74abb25f02b6'), 'fam_name': 'Oladipupo', 'no_fam_members': 'NA', 'geography_key': 74, 'fam_city': 'yaba', 'fam_wedding_date': 'NA', 'fam_date_created': datetime.datetime(2022, 10, 6, 10, 2, 40, 964000, tzinfo=datetime.timezone.utc), 'load_date': datetime.datetime(2022, 10, 6, 14, 2, 53, 763810)})]
+(Background on this error at: https://sqlalche.me/e/14/9h9h)
+[2022-10-06T14:02:56.215+0000] {python.py:173} INFO - Done. Returned value was: None
+[2022-10-06T14:02:56.240+0000] {taskinstance.py:1412} INFO - Marking task as SUCCESS. dag_id=vecap_etl, task_id=fam_dim, execution_date=20221006T140222, start_date=20221006T140243, end_date=20221006T140256
+[2022-10-06T14:02:56.306+0000] {local_task_job.py:156} INFO - Task exited with return code 0

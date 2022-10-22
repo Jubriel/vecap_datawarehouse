@@ -1,0 +1,24 @@
+[2022-10-06T14:06:29.886+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.church_fact manual__2022-10-06T14:05:28.964340+00:00 [queued]>
+[2022-10-06T14:06:29.903+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.church_fact manual__2022-10-06T14:05:28.964340+00:00 [queued]>
+[2022-10-06T14:06:29.904+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:06:29.905+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-06T14:06:29.907+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:06:29.927+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): church_fact> on 2022-10-06 14:05:28.964340+00:00
+[2022-10-06T14:06:29.935+0000] {standard_task_runner.py:52} INFO - Started process 4831 to run task
+[2022-10-06T14:06:29.940+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'church_fact', 'manual__2022-10-06T14:05:28.964340+00:00', '--job-id', '214', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmp2ns__qpd', '--error-file', '/tmp/tmpd_bwh7k4']
+[2022-10-06T14:06:29.943+0000] {standard_task_runner.py:80} INFO - Job 214: Subtask church_fact
+[2022-10-06T14:06:30.052+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.church_fact manual__2022-10-06T14:05:28.964340+00:00 [running]> on host a41ad1c55a2c
+[2022-10-06T14:06:30.169+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=church_fact
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-06T14:05:28.964340+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-06T14:05:28.964340+00:00
+[2022-10-06T14:06:36.810+0000] {python.py:173} INFO - Done. Returned value was: None
+[2022-10-06T14:06:36.862+0000] {taskinstance.py:1412} INFO - Marking task as SUCCESS. dag_id=vecap_etl, task_id=church_fact, execution_date=20221006T140528, start_date=20221006T140629, end_date=20221006T140636
+[2022-10-06T14:06:36.910+0000] {local_task_job.py:156} INFO - Task exited with return code 0
+[2022-10-06T14:06:36.996+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

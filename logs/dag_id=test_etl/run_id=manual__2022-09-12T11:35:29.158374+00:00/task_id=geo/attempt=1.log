@@ -1,0 +1,47 @@
+[2022-09-12T11:35:31.488+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.geo manual__2022-09-12T11:35:29.158374+00:00 [queued]>
+[2022-09-12T11:35:31.500+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.geo manual__2022-09-12T11:35:29.158374+00:00 [queued]>
+[2022-09-12T11:35:31.501+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-12T11:35:31.503+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-12T11:35:31.503+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-12T11:35:31.522+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): geo> on 2022-09-12 11:35:29.158374+00:00
+[2022-09-12T11:35:31.531+0000] {standard_task_runner.py:52} INFO - Started process 15237 to run task
+[2022-09-12T11:35:31.536+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'test_etl', 'geo', 'manual__2022-09-12T11:35:29.158374+00:00', '--job-id', '70', '--raw', '--subdir', 'DAGS_FOLDER/test_dag.py', '--cfg-path', '/tmp/tmpuccp4mkf', '--error-file', '/tmp/tmp4tno_2go']
+[2022-09-12T11:35:31.539+0000] {standard_task_runner.py:80} INFO - Job 70: Subtask geo
+[2022-09-12T11:35:31.638+0000] {task_command.py:371} INFO - Running <TaskInstance: test_etl.geo manual__2022-09-12T11:35:29.158374+00:00 [running]> on host 0d275337f52b
+[2022-09-12T11:35:31.733+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=test_etl
+AIRFLOW_CTX_TASK_ID=geo
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-12T11:35:29.158374+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-12T11:35:29.158374+00:00
+[2022-09-12T11:35:51.385+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/test_dag.py", line 57, in geo_dim
+    dp = dp.dropna(subset = 'state_province')
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/frame.py", line 5950, in dropna
+    indices = ax.get_indexer_for(subset)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexes/base.py", line 5275, in get_indexer_for
+    return self.get_indexer(target, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexes/base.py", line 3437, in get_indexer
+    target = self._maybe_cast_listlike_indexer(target)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexes/base.py", line 5708, in _maybe_cast_listlike_indexer
+    return ensure_index(target)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexes/base.py", line 6336, in ensure_index
+    return Index(index_like, copy=copy)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexes/base.py", line 474, in __new__
+    raise cls._scalar_data_error(data)
+TypeError: Index(...) must be called with a collection of some kind, 'state_province' was passed
+[2022-09-12T11:35:51.416+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=test_etl, task_id=geo, execution_date=20220912T113529, start_date=20220912T113531, end_date=20220912T113551
+[2022-09-12T11:35:51.435+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 70 for task geo (Index(...) must be called with a collection of some kind, 'state_province' was passed; 15237)
+[2022-09-12T11:35:51.492+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-09-12T11:35:51.531+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

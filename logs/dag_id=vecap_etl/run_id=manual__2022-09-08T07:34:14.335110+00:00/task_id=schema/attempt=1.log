@@ -1,0 +1,33 @@
+[2022-09-08T07:34:19.847+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.schema manual__2022-09-08T07:34:14.335110+00:00 [queued]>
+[2022-09-08T07:34:19.877+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.schema manual__2022-09-08T07:34:14.335110+00:00 [queued]>
+[2022-09-08T07:34:19.878+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T07:34:19.879+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-08T07:34:19.880+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T07:34:19.928+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): schema> on 2022-09-08 07:34:14.335110+00:00
+[2022-09-08T07:34:19.950+0000] {standard_task_runner.py:52} INFO - Started process 5426 to run task
+[2022-09-08T07:34:19.978+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'schema', 'manual__2022-09-08T07:34:14.335110+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpfltj5gtj', '--error-file', '/tmp/tmp2la1j6x4']
+[2022-09-08T07:34:20.002+0000] {standard_task_runner.py:80} INFO - Job 7: Subtask schema
+[2022-09-08T07:34:20.476+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.schema manual__2022-09-08T07:34:14.335110+00:00 [running]> on host 0edf5f972c6d
+[2022-09-08T07:34:21.725+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=schema
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-08T07:34:14.335110+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-08T07:34:14.335110+00:00
+[2022-09-08T07:34:21.740+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/c_dag.py", line 61, in main
+    schs = params.schs
+AttributeError: 'dict' object has no attribute 'schs'
+[2022-09-08T07:34:21.830+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=schema, execution_date=20220908T073414, start_date=20220908T073419, end_date=20220908T073421
+[2022-09-08T07:34:21.927+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 7 for task schema ('dict' object has no attribute 'schs'; 5426)
+[2022-09-08T07:34:22.031+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-09-08T07:34:22.491+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

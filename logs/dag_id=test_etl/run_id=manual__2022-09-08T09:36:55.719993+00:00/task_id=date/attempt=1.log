@@ -1,0 +1,25 @@
+[2022-09-08T09:36:57.579+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.date manual__2022-09-08T09:36:55.719993+00:00 [queued]>
+[2022-09-08T09:36:57.594+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.date manual__2022-09-08T09:36:55.719993+00:00 [queued]>
+[2022-09-08T09:36:57.595+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T09:36:57.596+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-08T09:36:57.598+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T09:36:57.619+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): date> on 2022-09-08 09:36:55.719993+00:00
+[2022-09-08T09:36:57.627+0000] {standard_task_runner.py:52} INFO - Started process 54521 to run task
+[2022-09-08T09:36:57.632+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'test_etl', 'date', 'manual__2022-09-08T09:36:55.719993+00:00', '--job-id', '29', '--raw', '--subdir', 'DAGS_FOLDER/test_dag.py', '--cfg-path', '/tmp/tmpkltnqtug', '--error-file', '/tmp/tmpclag06k4']
+[2022-09-08T09:36:57.635+0000] {standard_task_runner.py:80} INFO - Job 29: Subtask date
+[2022-09-08T09:36:57.733+0000] {task_command.py:371} INFO - Running <TaskInstance: test_etl.date manual__2022-09-08T09:36:55.719993+00:00 [running]> on host 0edf5f972c6d
+[2022-09-08T09:36:57.850+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=test_etl
+AIRFLOW_CTX_TASK_ID=date
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-08T09:36:55.719993+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-08T09:36:55.719993+00:00
+[2022-09-08T09:36:57.853+0000] {logging_mixin.py:115} INFO - 8
+[2022-09-08T09:36:57.854+0000] {python.py:173} INFO - Done. Returned value was: None
+[2022-09-08T09:36:57.876+0000] {taskinstance.py:1412} INFO - Marking task as SUCCESS. dag_id=test_etl, task_id=date, execution_date=20220908T093655, start_date=20220908T093657, end_date=20220908T093657
+[2022-09-08T09:36:57.925+0000] {local_task_job.py:156} INFO - Task exited with return code 0
+[2022-09-08T09:36:57.983+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

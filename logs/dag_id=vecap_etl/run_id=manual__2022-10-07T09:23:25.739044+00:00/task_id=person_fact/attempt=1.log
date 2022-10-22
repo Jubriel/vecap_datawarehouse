@@ -1,0 +1,24 @@
+[2022-10-07T09:24:13.597+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.person_fact manual__2022-10-07T09:23:25.739044+00:00 [queued]>
+[2022-10-07T09:24:13.614+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.person_fact manual__2022-10-07T09:23:25.739044+00:00 [queued]>
+[2022-10-07T09:24:13.615+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T09:24:13.617+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-07T09:24:13.618+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T09:24:13.639+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): person_fact> on 2022-10-07 09:23:25.739044+00:00
+[2022-10-07T09:24:13.647+0000] {standard_task_runner.py:52} INFO - Started process 35106 to run task
+[2022-10-07T09:24:13.652+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'person_fact', 'manual__2022-10-07T09:23:25.739044+00:00', '--job-id', '239', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmp0nb9ev14', '--error-file', '/tmp/tmpxwl25upd']
+[2022-10-07T09:24:13.655+0000] {standard_task_runner.py:80} INFO - Job 239: Subtask person_fact
+[2022-10-07T09:24:13.771+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.person_fact manual__2022-10-07T09:23:25.739044+00:00 [running]> on host a41ad1c55a2c
+[2022-10-07T09:24:13.965+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=person_fact
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-07T09:23:25.739044+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-07T09:23:25.739044+00:00
+[2022-10-07T09:24:22.706+0000] {python.py:173} INFO - Done. Returned value was: {'Table processed ': 'Data imported successful'}
+[2022-10-07T09:24:22.747+0000] {taskinstance.py:1412} INFO - Marking task as SUCCESS. dag_id=vecap_etl, task_id=person_fact, execution_date=20221007T092325, start_date=20221007T092413, end_date=20221007T092422
+[2022-10-07T09:24:22.782+0000] {local_task_job.py:156} INFO - Task exited with return code 0
+[2022-10-07T09:24:22.815+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

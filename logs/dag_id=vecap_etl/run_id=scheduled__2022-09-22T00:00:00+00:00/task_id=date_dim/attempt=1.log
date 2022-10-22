@@ -1,0 +1,80 @@
+[2022-09-25T14:22:10.141+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim scheduled__2022-09-22T00:00:00+00:00 [queued]>
+[2022-09-25T14:22:11.211+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim scheduled__2022-09-22T00:00:00+00:00 [queued]>
+[2022-09-25T14:22:11.252+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-25T14:22:11.324+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-25T14:22:11.347+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-25T14:22:12.931+0000] {taskinstance.py:1389} INFO - Executing <Task(PostgresOperator): date_dim> on 2022-09-22 00:00:00+00:00
+[2022-09-25T14:22:13.311+0000] {standard_task_runner.py:52} INFO - Started process 309 to run task
+[2022-09-25T14:22:13.390+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'date_dim', 'scheduled__2022-09-22T00:00:00+00:00', '--job-id', '146', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmppm4hgjt6', '--error-file', '/tmp/tmpzde4oryx']
+[2022-09-25T14:22:13.401+0000] {standard_task_runner.py:80} INFO - Job 146: Subtask date_dim
+[2022-09-25T14:22:14.679+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.date_dim scheduled__2022-09-22T00:00:00+00:00 [running]> on host 0d275337f52b
+[2022-09-25T14:22:17.570+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=date_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-22T00:00:00+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2022-09-22T00:00:00+00:00
+[2022-09-25T14:22:17.668+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-09-25T14:22:19.392+0000] {sql.py:315} INFO - Running statement: INSERT INTO rccghge.date_dim
+            SELECT TO_CHAR(datum, 'yyyymmdd')::INT AS date_key,
+                datum AS date_actual,
+                EXTRACT(EPOCH FROM datum) AS epoch,
+                TO_CHAR(datum, 'fmDDth') AS day_suffix,
+                TO_CHAR(datum, 'TMDay') AS day_name,
+                EXTRACT(ISODOW FROM datum) AS day_of_week,
+                EXTRACT(DAY FROM datum) AS day_of_month,
+                datum - DATE_TRUNC('quarter', datum)::DATE + 1 AS day_of_quarter,
+                EXTRACT(DOY FROM datum) AS day_of_year,
+                TO_CHAR(datum, 'W')::INT AS week_of_month,
+                EXTRACT(WEEK FROM datum) AS week_of_year,
+                EXTRACT(ISOYEAR FROM datum) || TO_CHAR(datum, '"-W"IW-') || EXTRACT(ISODOW FROM datum) AS week_of_year_iso,
+                EXTRACT(MONTH FROM datum) AS month_actual,
+                TO_CHAR(datum, 'TMMonth') AS month_name,
+                TO_CHAR(datum, 'Mon') AS month_name_abbreviated,
+                EXTRACT(QUARTER FROM datum) AS quarter_actual,
+                CASE
+                    WHEN EXTRACT(QUARTER FROM datum) = 1 THEN 'First'
+                    WHEN EXTRACT(QUARTER FROM datum) = 2 THEN 'Second'
+                    WHEN EXTRACT(QUARTER FROM datum) = 3 THEN 'Third'
+                    WHEN EXTRACT(QUARTER FROM datum) = 4 THEN 'Fourth'
+                    END AS quarter_name,
+                EXTRACT(YEAR FROM datum) AS year_actual,
+                datum + (1 - EXTRACT(ISODOW FROM datum))::INT AS first_day_of_week,
+                datum + (7 - EXTRACT(ISODOW FROM datum))::INT AS last_day_of_week,
+                datum + (1 - EXTRACT(DAY FROM datum))::INT AS first_day_of_month,
+                (DATE_TRUNC('MONTH', datum) + INTERVAL '1 MONTH - 1 day')::DATE AS last_day_of_month,
+                DATE_TRUNC('quarter', datum)::DATE AS first_day_of_quarter,
+                (DATE_TRUNC('quarter', datum) + INTERVAL '3 MONTH - 1 day')::DATE AS last_day_of_quarter,
+                TO_DATE(EXTRACT(YEAR FROM datum) || '-01-01', 'YYYY-MM-DD') AS first_day_of_year,
+                TO_DATE(EXTRACT(YEAR FROM datum) || '-12-31', 'YYYY-MM-DD') AS last_day_of_year,
+                TO_CHAR(datum, 'mmyyyy') AS mmyyyy,
+                TO_CHAR(datum, 'mmddyyyy') AS mmddyyyy,
+                CASE
+                    WHEN EXTRACT(ISODOW FROM datum) IN (6, 7) THEN TRUE
+                    ELSE FALSE
+                    END AS weekend_indr
+            FROM (SELECT '2020-01-01'::DATE + SEQUENCE.DAY AS datum
+                FROM GENERATE_SERIES(0, 29219) AS SEQUENCE (DAY)
+                GROUP BY SEQUENCE.DAY) DQ
+            ORDER BY 1;
+            COMMIT, parameters: None
+[2022-09-25T14:22:20.294+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/postgres/operators/postgres.py", line 92, in execute
+    self.hook.run(self.sql, self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/common/sql/hooks/sql.py", line 295, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/common/sql/hooks/sql.py", line 320, in _run_command
+    cur.execute(sql_statement)
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "date_dim_pk"
+DETAIL:  Key (date_key)=(20200101) already exists.
+
+[2022-09-25T14:22:20.685+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=date_dim, execution_date=20220922T000000, start_date=20220925T142210, end_date=20220925T142220
+[2022-09-25T14:22:22.574+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 146 for task date_dim (duplicate key value violates unique constraint "date_dim_pk"
+DETAIL:  Key (date_key)=(20200101) already exists.
+; 309)
+[2022-09-25T14:22:22.816+0000] {local_task_job.py:156} INFO - Task exited with return code 1

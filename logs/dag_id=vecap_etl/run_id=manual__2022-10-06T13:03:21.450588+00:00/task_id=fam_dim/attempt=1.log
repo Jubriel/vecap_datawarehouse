@@ -1,0 +1,42 @@
+[2022-10-06T13:03:41.372+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T13:03:21.450588+00:00 [queued]>
+[2022-10-06T13:03:41.392+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T13:03:21.450588+00:00 [queued]>
+[2022-10-06T13:03:41.393+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T13:03:41.395+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-06T13:03:41.396+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T13:03:41.417+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): fam_dim> on 2022-10-06 13:03:21.450588+00:00
+[2022-10-06T13:03:41.425+0000] {standard_task_runner.py:52} INFO - Started process 2373 to run task
+[2022-10-06T13:03:41.430+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'fam_dim', 'manual__2022-10-06T13:03:21.450588+00:00', '--job-id', '191', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpnjaldz4t', '--error-file', '/tmp/tmp7ijse_xm']
+[2022-10-06T13:03:41.433+0000] {standard_task_runner.py:80} INFO - Job 191: Subtask fam_dim
+[2022-10-06T13:03:41.530+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.fam_dim manual__2022-10-06T13:03:21.450588+00:00 [running]> on host a41ad1c55a2c
+[2022-10-06T13:03:41.647+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=fam_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-06T13:03:21.450588+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-06T13:03:21.450588+00:00
+[2022-10-06T13:03:53.079+0000] {logging_mixin.py:115} WARNING - /home/***/.local/lib/python3.7/site-packages/pandas/core/frame.py:5182 SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+[2022-10-06T13:03:53.087+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/ETL.py", line 189, in fam_dim
+    fam = fam[col]
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/frame.py", line 3464, in __getitem__
+    indexer = self.loc._get_listlike_indexer(key, axis=1)[1]
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexing.py", line 1314, in _get_listlike_indexer
+    self._validate_read_indexer(keyarr, indexer, axis)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/core/indexing.py", line 1377, in _validate_read_indexer
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['fam_cityfam_wedding_date'] not in index"
+[2022-10-06T13:03:53.105+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=fam_dim, execution_date=20221006T130321, start_date=20221006T130341, end_date=20221006T130353
+[2022-10-06T13:03:53.122+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 191 for task fam_dim ("['fam_cityfam_wedding_date'] not in index"; 2373)
+[2022-10-06T13:03:53.177+0000] {local_task_job.py:156} INFO - Task exited with return code 1

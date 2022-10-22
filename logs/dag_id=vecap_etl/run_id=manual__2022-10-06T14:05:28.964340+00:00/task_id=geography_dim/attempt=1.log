@@ -1,0 +1,23 @@
+[2022-10-06T14:05:36.382+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.geography_dim manual__2022-10-06T14:05:28.964340+00:00 [queued]>
+[2022-10-06T14:05:36.403+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.geography_dim manual__2022-10-06T14:05:28.964340+00:00 [queued]>
+[2022-10-06T14:05:36.406+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:05:36.408+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-06T14:05:36.410+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-06T14:05:36.432+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): geography_dim> on 2022-10-06 14:05:28.964340+00:00
+[2022-10-06T14:05:36.440+0000] {standard_task_runner.py:52} INFO - Started process 4751 to run task
+[2022-10-06T14:05:36.445+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'geography_dim', 'manual__2022-10-06T14:05:28.964340+00:00', '--job-id', '210', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpuc6ag0or', '--error-file', '/tmp/tmp0x08ib34']
+[2022-10-06T14:05:36.448+0000] {standard_task_runner.py:80} INFO - Job 210: Subtask geography_dim
+[2022-10-06T14:05:36.545+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.geography_dim manual__2022-10-06T14:05:28.964340+00:00 [running]> on host a41ad1c55a2c
+[2022-10-06T14:05:36.663+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=geography_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-06T14:05:28.964340+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-06T14:05:28.964340+00:00
+[2022-10-06T14:05:46.994+0000] {python.py:173} INFO - Done. Returned value was: None
+[2022-10-06T14:05:47.016+0000] {taskinstance.py:1412} INFO - Marking task as SUCCESS. dag_id=vecap_etl, task_id=geography_dim, execution_date=20221006T140528, start_date=20221006T140536, end_date=20221006T140547
+[2022-10-06T14:05:47.080+0000] {local_task_job.py:156} INFO - Task exited with return code 0

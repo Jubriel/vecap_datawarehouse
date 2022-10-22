@@ -1,0 +1,47 @@
+[2022-09-14T10:38:44.476+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim manual__2022-09-14T10:38:42.688307+00:00 [queued]>
+[2022-09-14T10:38:44.489+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim manual__2022-09-14T10:38:42.688307+00:00 [queued]>
+[2022-09-14T10:38:44.491+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-14T10:38:44.492+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 0
+[2022-09-14T10:38:44.493+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-14T10:38:44.518+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): date_dim> on 2022-09-14 10:38:42.688307+00:00
+[2022-09-14T10:38:44.530+0000] {standard_task_runner.py:52} INFO - Started process 17658 to run task
+[2022-09-14T10:38:44.536+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'date_dim', 'manual__2022-09-14T10:38:42.688307+00:00', '--job-id', '88', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpp7yr5jkq', '--error-file', '/tmp/tmpueenkc0o']
+[2022-09-14T10:38:44.539+0000] {standard_task_runner.py:80} INFO - Job 88: Subtask date_dim
+[2022-09-14T10:38:44.634+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.date_dim manual__2022-09-14T10:38:42.688307+00:00 [running]> on host 0d275337f52b
+[2022-09-14T10:38:44.752+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=date_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-14T10:38:42.688307+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-14T10:38:42.688307+00:00
+[2022-09-14T10:38:50.962+0000] {python.py:173} INFO - Done. Returned value was: <sqlalchemy.engine.cursor.LegacyCursorResult object at 0x7f73da2df310>
+[2022-09-14T10:38:50.993+0000] {xcom.py:586} ERROR - Could not serialize the XCom value into JSON. If you are using pickle instead of JSON for XCom, then you need to enable pickle support for XCom in your *** config.
+[2022-09-14T10:38:50.999+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 68, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/taskinstance.py", line 2405, in xcom_push
+    session=session,
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/utils/session.py", line 68, in wrapper
+    return func(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/xcom.py", line 198, in set
+    map_index=map_index,
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/models/xcom.py", line 583, in serialize_value
+    return json.dumps(value).encode('UTF-8')
+  File "/usr/local/lib/python3.7/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+  File "/usr/local/lib/python3.7/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/local/lib/python3.7/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/local/lib/python3.7/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type LegacyCursorResult is not JSON serializable
+[2022-09-14T10:38:51.059+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=date_dim, execution_date=20220914T103842, start_date=20220914T103844, end_date=20220914T103851
+[2022-09-14T10:38:51.142+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 88 for task date_dim (Object of type LegacyCursorResult is not JSON serializable; 17658)
+[2022-09-14T10:38:51.200+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-09-14T10:38:51.414+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

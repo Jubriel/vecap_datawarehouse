@@ -1,0 +1,33 @@
+[2022-10-07T09:20:33.003+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.church_fact manual__2022-10-07T09:19:41.595481+00:00 [queued]>
+[2022-10-07T09:20:33.026+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.church_fact manual__2022-10-07T09:19:41.595481+00:00 [queued]>
+[2022-10-07T09:20:33.028+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T09:20:33.031+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-07T09:20:33.033+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T09:20:33.061+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): church_fact> on 2022-10-07 09:19:41.595481+00:00
+[2022-10-07T09:20:33.074+0000] {standard_task_runner.py:52} INFO - Started process 34795 to run task
+[2022-10-07T09:20:33.083+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'church_fact', 'manual__2022-10-07T09:19:41.595481+00:00', '--job-id', '234', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpjps_p82e', '--error-file', '/tmp/tmpe9rayife']
+[2022-10-07T09:20:33.089+0000] {standard_task_runner.py:80} INFO - Job 234: Subtask church_fact
+[2022-10-07T09:20:33.325+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.church_fact manual__2022-10-07T09:19:41.595481+00:00 [running]> on host a41ad1c55a2c
+[2022-10-07T09:20:33.606+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=church_fact
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-07T09:19:41.595481+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-10-07T09:19:41.595481+00:00
+[2022-10-07T09:20:39.040+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/ETL.py", line 285, in church_fact
+    d4['church_fact_key'] = d4.index + 1
+AttributeError: 'dict' object has no attribute 'index'
+[2022-10-07T09:20:39.063+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=church_fact, execution_date=20221007T091941, start_date=20221007T092033, end_date=20221007T092039
+[2022-10-07T09:20:39.107+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 234 for task church_fact ('dict' object has no attribute 'index'; 34795)
+[2022-10-07T09:20:39.168+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-10-07T09:20:39.207+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

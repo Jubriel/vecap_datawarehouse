@@ -1,0 +1,37 @@
+[2022-09-28T04:37:10.314+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim scheduled__2022-09-27T00:00:00+00:00 [queued]>
+[2022-09-28T04:37:10.464+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.date_dim scheduled__2022-09-27T00:00:00+00:00 [queued]>
+[2022-09-28T04:37:10.467+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-28T04:37:10.475+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-28T04:37:10.477+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-28T04:37:10.592+0000] {taskinstance.py:1389} INFO - Executing <Task(PostgresOperator): date_dim> on 2022-09-27 00:00:00+00:00
+[2022-09-28T04:37:10.674+0000] {standard_task_runner.py:52} INFO - Started process 17975 to run task
+[2022-09-28T04:37:10.750+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'date_dim', 'scheduled__2022-09-27T00:00:00+00:00', '--job-id', '155', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmp0m_bmczy', '--error-file', '/tmp/tmpzfge8wmz']
+[2022-09-28T04:37:10.759+0000] {standard_task_runner.py:80} INFO - Job 155: Subtask date_dim
+[2022-09-28T04:37:11.073+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.date_dim scheduled__2022-09-27T00:00:00+00:00 [running]> on host a41ad1c55a2c
+[2022-09-28T04:37:11.526+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=date_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-27T00:00:00+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2022-09-27T00:00:00+00:00
+[2022-09-28T04:37:11.569+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-09-28T04:37:11.651+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/postgres/operators/postgres.py", line 92, in execute
+    self.hook.run(self.sql, self.autocommit, parameters=self.parameters)
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/common/sql/hooks/sql.py", line 288, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/postgres/hooks/postgres.py", line 113, in get_conn
+    self.conn = psycopg2.connect(**conn_args)
+  File "/home/airflow/.local/lib/python3.7/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not translate host name "test-vec-app.cxci97ncnvqs.us-east-1.rds.amazonaws.com" to address: Name or service not known
+
+[2022-09-28T04:37:11.726+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=date_dim, execution_date=20220927T000000, start_date=20220928T043710, end_date=20220928T043711
+[2022-09-28T04:37:11.759+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 155 for task date_dim (could not translate host name "test-vec-app.cxci97ncnvqs.us-east-1.rds.amazonaws.com" to address: Name or service not known
+; 17975)
+[2022-09-28T04:37:11.851+0000] {local_task_job.py:156} INFO - Task exited with return code 1

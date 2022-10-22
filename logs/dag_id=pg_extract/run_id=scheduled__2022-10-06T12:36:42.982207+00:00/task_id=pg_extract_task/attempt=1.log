@@ -1,0 +1,37 @@
+[2022-10-07T13:00:20.995+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: pg_extract.pg_extract_task scheduled__2022-10-06T12:36:42.982207+00:00 [queued]>
+[2022-10-07T13:00:21.009+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: pg_extract.pg_extract_task scheduled__2022-10-06T12:36:42.982207+00:00 [queued]>
+[2022-10-07T13:00:21.010+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T13:00:21.011+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-10-07T13:00:21.032+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-10-07T13:00:21.087+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): pg_extract_task> on 2022-10-06 12:36:42.982207+00:00
+[2022-10-07T13:00:21.112+0000] {standard_task_runner.py:52} INFO - Started process 48326 to run task
+[2022-10-07T13:00:21.116+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'pg_extract', 'pg_extract_task', 'scheduled__2022-10-06T12:36:42.982207+00:00', '--job-id', '247', '--raw', '--subdir', 'DAGS_FOLDER/x_dag.py', '--cfg-path', '/tmp/tmp8ho30m28', '--error-file', '/tmp/tmpkjbl_huf']
+[2022-10-07T13:00:21.135+0000] {standard_task_runner.py:80} INFO - Job 247: Subtask pg_extract_task
+[2022-10-07T13:00:21.711+0000] {task_command.py:371} INFO - Running <TaskInstance: pg_extract.pg_extract_task scheduled__2022-10-06T12:36:42.982207+00:00 [running]> on host a41ad1c55a2c
+[2022-10-07T13:00:21.905+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=pg_extract
+AIRFLOW_CTX_TASK_ID=pg_extract_task
+AIRFLOW_CTX_EXECUTION_DATE=2022-10-06T12:36:42.982207+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2022-10-06T12:36:42.982207+00:00
+[2022-10-07T13:00:21.940+0000] {base.py:68} INFO - Using connection ID 'home' for task execution.
+[2022-10-07T13:00:22.682+0000] {x_dag.py:13} INFO - Exporting query to file
+[2022-10-07T13:00:22.683+0000] {postgres.py:127} INFO - Running copy expert: COPY (SELECT * FROM CUSTOMER WHERE first_name='john') TO STDOUT WITH CSV HEADER, filename: /home/user/***/customer.csv
+[2022-10-07T13:00:22.684+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/x_dag.py", line 14, in pg_extract
+    pg_hook.copy_expert(copy_sql, filename='/home/user/airflow/customer.csv')
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/providers/postgres/hooks/postgres.py", line 129, in copy_expert
+    with open(filename, 'w'):
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/airflow/customer.csv'
+[2022-10-07T13:00:22.701+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=pg_extract, task_id=pg_extract_task, execution_date=20221006T123642, start_date=20221007T130020, end_date=20221007T130022
+[2022-10-07T13:00:22.730+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 247 for task pg_extract_task ([Errno 2] No such file or directory: '/home/user/airflow/customer.csv'; 48326)
+[2022-10-07T13:00:22.777+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-10-07T13:00:22.847+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check

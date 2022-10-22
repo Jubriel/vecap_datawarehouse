@@ -1,0 +1,9 @@
+[2022-09-29T15:40:32.692+0000] {processor.py:153} INFO - Started process (PID=21524) to work on /opt/airflow/dags/test_dag.py
+[2022-09-29T15:40:32.706+0000] {processor.py:640} INFO - Processing file /opt/airflow/dags/test_dag.py for tasks to queue
+[2022-09-29T15:40:32.712+0000] {logging_mixin.py:115} INFO - [2022-09-29T15:40:32.712+0000] {dagbag.py:508} INFO - Filling up the DagBag from /opt/airflow/dags/test_dag.py
+[2022-09-29T15:40:45.876+0000] {logging_mixin.py:115} INFO - [2022-09-29T15:40:45.834+0000] {base.py:68} INFO - Using connection ID 'vecap_source' for task execution.
+[2022-09-29T15:40:45.892+0000] {logging_mixin.py:115} INFO - [2022-09-29T15:40:45.891+0000] {base.py:68} INFO - Using connection ID 'vecap_target' for task execution.
+[2022-09-29T15:40:45.982+0000] {processor.py:650} INFO - DAG(s) dict_keys(['test_etl']) retrieved from /opt/airflow/dags/test_dag.py
+[2022-09-29T15:40:46.240+0000] {logging_mixin.py:115} INFO - [2022-09-29T15:40:46.239+0000] {dag.py:2429} INFO - Sync 1 DAGs
+[2022-09-29T15:40:46.370+0000] {logging_mixin.py:115} INFO - [2022-09-29T15:40:46.370+0000] {dag.py:2981} INFO - Setting next_dagrun for test_etl to None, run_after=None
+[2022-09-29T15:40:46.433+0000] {processor.py:161} INFO - Processing /opt/airflow/dags/test_dag.py took 13.760 seconds

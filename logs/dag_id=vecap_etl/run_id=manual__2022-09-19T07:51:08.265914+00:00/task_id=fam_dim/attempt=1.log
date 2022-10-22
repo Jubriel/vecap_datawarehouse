@@ -1,0 +1,34 @@
+[2022-09-19T07:51:24.917+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-09-19T07:51:08.265914+00:00 [queued]>
+[2022-09-19T07:51:24.936+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: vecap_etl.fam_dim manual__2022-09-19T07:51:08.265914+00:00 [queued]>
+[2022-09-19T07:51:24.937+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-19T07:51:24.939+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-19T07:51:24.940+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-19T07:51:24.961+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): fam_dim> on 2022-09-19 07:51:08.265914+00:00
+[2022-09-19T07:51:24.969+0000] {standard_task_runner.py:52} INFO - Started process 20821 to run task
+[2022-09-19T07:51:24.975+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'vecap_etl', 'fam_dim', 'manual__2022-09-19T07:51:08.265914+00:00', '--job-id', '135', '--raw', '--subdir', 'DAGS_FOLDER/c_dag.py', '--cfg-path', '/tmp/tmpo6gjr5lc', '--error-file', '/tmp/tmpk4sdvxy2']
+[2022-09-19T07:51:24.977+0000] {standard_task_runner.py:80} INFO - Job 135: Subtask fam_dim
+[2022-09-19T07:51:25.093+0000] {task_command.py:371} INFO - Running <TaskInstance: vecap_etl.fam_dim manual__2022-09-19T07:51:08.265914+00:00 [running]> on host 0d275337f52b
+[2022-09-19T07:51:25.215+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=vecap_etl
+AIRFLOW_CTX_TASK_ID=fam_dim
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-19T07:51:08.265914+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-19T07:51:08.265914+00:00
+[2022-09-19T07:51:31.260+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/ETL.py", line 145, in fam_dim
+    fam = fam.rename(colums={'id':'fam_id'})
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/util/_decorators.py", line 324, in wrapper
+    return func(*args, **kwargs)
+TypeError: rename() got an unexpected keyword argument 'colums'
+[2022-09-19T07:51:31.285+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=vecap_etl, task_id=fam_dim, execution_date=20220919T075108, start_date=20220919T075124, end_date=20220919T075131
+[2022-09-19T07:51:31.307+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 135 for task fam_dim (rename() got an unexpected keyword argument 'colums'; 20821)
+[2022-09-19T07:51:31.360+0000] {local_task_job.py:156} INFO - Task exited with return code 1

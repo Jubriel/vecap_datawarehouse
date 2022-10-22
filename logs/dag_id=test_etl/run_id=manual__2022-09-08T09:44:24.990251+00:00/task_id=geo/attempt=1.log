@@ -1,0 +1,80 @@
+[2022-09-08T09:44:26.840+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.geo manual__2022-09-08T09:44:24.990251+00:00 [queued]>
+[2022-09-08T09:44:26.853+0000] {taskinstance.py:1171} INFO - Dependencies all met for <TaskInstance: test_etl.geo manual__2022-09-08T09:44:24.990251+00:00 [queued]>
+[2022-09-08T09:44:26.855+0000] {taskinstance.py:1368} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T09:44:26.856+0000] {taskinstance.py:1369} INFO - Starting attempt 1 of 1
+[2022-09-08T09:44:26.856+0000] {taskinstance.py:1370} INFO - 
+--------------------------------------------------------------------------------
+[2022-09-08T09:44:26.877+0000] {taskinstance.py:1389} INFO - Executing <Task(PythonOperator): geo> on 2022-09-08 09:44:24.990251+00:00
+[2022-09-08T09:44:26.885+0000] {standard_task_runner.py:52} INFO - Started process 57595 to run task
+[2022-09-08T09:44:26.889+0000] {standard_task_runner.py:79} INFO - Running: ['***', 'tasks', 'run', 'test_etl', 'geo', 'manual__2022-09-08T09:44:24.990251+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/test_dag.py', '--cfg-path', '/tmp/tmpjlh_ariz', '--error-file', '/tmp/tmpdgbajlpb']
+[2022-09-08T09:44:26.892+0000] {standard_task_runner.py:80} INFO - Job 30: Subtask geo
+[2022-09-08T09:44:26.984+0000] {task_command.py:371} INFO - Running <TaskInstance: test_etl.geo manual__2022-09-08T09:44:24.990251+00:00 [running]> on host 0edf5f972c6d
+[2022-09-08T09:44:27.092+0000] {taskinstance.py:1583} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=admin@vecap.com
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=test_etl
+AIRFLOW_CTX_TASK_ID=geo
+AIRFLOW_CTX_EXECUTION_DATE=2022-09-08T09:44:24.990251+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2022-09-08T09:44:24.990251+00:00
+[2022-09-08T09:44:49.655+0000] {taskinstance.py:1902} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1803, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "rccghge.family" does not exist
+LINE 1: SELECT * from rccghge.family;
+                      ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 171, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 189, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/test_dag.py", line 37, in geo_dim
+    df = pd.read_sql(f'SELECT * from {schs}.family;', con= db_source_conn)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 634, in read_sql
+    chunksize=chunksize,
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 1579, in read_query
+    result = self.execute(*args)
+  File "/home/airflow/.local/lib/python3.7/site-packages/pandas/io/sql.py", line 1424, in execute
+    return self.connectable.execution_options().execute(*args, **kwargs)
+  File "<string>", line 2, in execute
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/util/deprecations.py", line 401, in warned
+    return fn(*args, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 3139, in execute
+    return connection.execute(statement, *multiparams, **params)
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1279, in execute
+    future=False,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1585, in _exec_driver_sql
+    distilled_parameters,
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 2027, in _handle_dbapi_exception
+    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/base.py", line 1803, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/airflow/.local/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 719, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "rccghge.family" does not exist
+LINE 1: SELECT * from rccghge.family;
+                      ^
+
+[SQL: SELECT * from rccghge.family;]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2022-09-08T09:44:49.679+0000] {taskinstance.py:1412} INFO - Marking task as FAILED. dag_id=test_etl, task_id=geo, execution_date=20220908T094424, start_date=20220908T094426, end_date=20220908T094449
+[2022-09-08T09:44:49.695+0000] {standard_task_runner.py:97} ERROR - Failed to execute job 30 for task geo ((psycopg2.errors.UndefinedTable) relation "rccghge.family" does not exist
+LINE 1: SELECT * from rccghge.family;
+                      ^
+
+[SQL: SELECT * from rccghge.family;]
+(Background on this error at: https://sqlalche.me/e/14/f405); 57595)
+[2022-09-08T09:44:49.714+0000] {local_task_job.py:156} INFO - Task exited with return code 1
+[2022-09-08T09:44:49.748+0000] {local_task_job.py:279} INFO - 0 downstream tasks scheduled from follow-on schedule check
