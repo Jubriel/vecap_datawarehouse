@@ -165,103 +165,142 @@ def fam_dim(sch:str, target, source):
     breakpoint
 
 
+# Process task dimension
+def process_dim(sch:str, source, target):
+    # Extract
+    d1 = pd.read_sql(f"""select *
+                        from {sch}.process as p
+                        join {sch}.task as t
+                        on (p.id = t.process_id )
+                        join {sch}.task_assignee as a
+                        on (t.id = a.task_id)
+                    """, con=source)
+    # Transform     
+    d1['task_duration'] = (datetime(d1['task_actual_enddate']) - datetime(d1['task_actual_startdate'])).total_seconds()/3600  # in hours
+    d1['process_duration'] = (datetime(d1['process_actual_endtime']) - datetime(d1['process_actual_starttime'])).total_seconds()/3600
+    d1['process_key'] = d1.index + 1 
 
+    col = ['process_key', 'process_name','process_type','process_duration','process_status',
+            'task_id', 'task_type', 'task_priority', 'task_status', 'task_duration', 'followup_user', 'followup_user_role'
+            'task_date_created', 'task_date_completed', 'load_date', 'updated_at']
+    d1 = d1[col]
+    
+    # Load
+    try:
+        d1.to_sql('process_task_dim', schema=sch, con = target, if_exists='append', index=False)
+        # upsert_df(d1, ''process_task_dim', sch, target, 'process_key')
+        print("Data import Successful")
+    except Exception as e:
+        print(f"Data import error : {e}")
+        breakpoint
+    return
 
 
 # Person_fact
 def per_fact(sch:str, target):
+
     # Extract
-  d1 = pd.read_sql(f'SELECT * from {sch}.person_dim;', con=target)
+    d1 = pd.read_sql(f'SELECT * from {sch}.person_dim;', con=target)
 
-  # Transform
-  today = date.today()
-  d1['no_of_days_sincejoined'] = pd.to_datetime(d1.per_join_date).apply(lambda x: (today.year - x.year - ((today.month, today.day) < (x.month, x.day)))*365)
-  d1['no_of_testimony'] = [rd.choices([0, 2, 3, 5, 8], weights=[8,5,3,2,1])[0] for _ in range(len(d1))] # randomly generated
-  d1['no_of_service_rqst'] = [rd.choice(range(10)) for _ in range(len(d1))] # randomly generated
-  d1['amount_pledged'] = [round(rd.choice(range(330000)), -3) for _ in range(len(d1))] # randomly generated
-  
-  d1['date_key'] = str(date.isoformat(date.today())).replace('-', '')
-  d1['load_date'] = today
-  
-  # Filling missing values
-  d1['no_of_service_rqst'].fillna(0, inplace=True)
-  d1['no_of_testimony'].fillna(0, inplace=True)
-  d1['amount_pledged'].fillna(0, inplace=True)
+    # Transform
+    today = date.today()
+    d1['no_of_days_sincejoined'] = pd.to_datetime(d1.per_join_date).apply(lambda x: (today.year - x.year - ((today.month, today.day) < (x.month, x.day)))*365)
+    d1['no_of_testimony'] = [rd.choices([0, 2, 3, 5, 8], weights=[8,5,3,2,1])[0] for _ in range(len(d1))] # randomly generated
+    d1['no_of_service_rqst'] = [rd.choice(range(10)) for _ in range(len(d1))] # randomly generated
+    d1['amount_pledged'] = [round(rd.choice(range(330000)), -3) for _ in range(len(d1))] # randomly generated
+    
+    d1['date_key'] = str(date.isoformat(date.today())).replace('-', '')
+    d1['load_date'] = today
+    
+    # Filling missing values
+    d1['no_of_service_rqst'].fillna(0, inplace=True)
+    d1['no_of_testimony'].fillna(0, inplace=True)
+    d1['amount_pledged'].fillna(0, inplace=True)
 
-  d1['person_fact_key'] = d1.index + 1
+    d1['person_fact_key'] = d1.index + 1
 
-  col = ['person_fact_key','date_key', 'person_key', 'no_of_days_sincejoined',
-      'no_of_testimony', 'no_of_service_rqst', 'amount_pledged', 'load_date']
+    col = ['person_fact_key','date_key', 'person_key', 'no_of_days_sincejoined',
+        'no_of_testimony', 'no_of_service_rqst', 'amount_pledged', 'load_date']
 
-  d1 = d1[col]
+    d1 = d1[col]
 
-  # Load
-  try:
-    d1.to_sql('person_fact', schema=sch, con = target, if_exists='append', index=False)
-    # upsert_df(d1, 'person_fact', sch, target, 'person_fact_key')
-    print("Data import Successful")
-  except Exception as e:
-    print(f"Data import error : {e}")
-    breakpoint
+    # Load
+    try:
+        d1.to_sql('person_fact', schema=sch, con = target, if_exists='append', index=False)
+        # upsert_df(d1, 'person_fact', sch, target, 'person_fact_key')
+        print("Data import Successful")
+    except Exception as e:
+        print(f"Data import error : {e}")
+        breakpoint
 
 # per_fact()
 
 # Church_fact
 def church_fact(sch:str, target):
-  # Extract
-  d1 = pd.read_sql(f'SELECT * from {sch}.person_dim;', con=target)
-  d2 = pd.read_sql(f'SELECT * from {sch}.fam_dim;', con=target)
+    # Extract
+    d1 = pd.read_sql(f'SELECT * from {sch}.person_dim;', con=target)
+    d2 = pd.read_sql(f'SELECT * from {sch}.fam_dim;', con=target)
+    d3 = pd.read_sql(f'SELECT * from {sch}.process_task_dim;', con=target)
 
 
-  #  Transform
-  d4 = {}
-  d4['no_of_families'] = d2.fam_id.nunique() 
-  d4['avg_fam_size'] = d2['no_fam_members'].mean()
-  d4['total_population'] = d1.id.nunique()
-  d4['no_of_females'] = d1['gender'].tolist().count('Female')
-  d4['no_of_males'] = d1['gender'].tolist().count('Male')
-  d4['no_of_kids'] = d1['per_age_interval'].tolist().count('1 - 12')
-  d4['no_of_teenagers'] = d1['per_age_interval'].tolist().count('13 - 16')
-  d4['no_of_youths'] = d1['per_age_interval'].tolist().count('17 - 40')
-  d4['no_of_adults'] = d1['per_age_interval'].tolist().count('41 - 64')
-  d4['no_of_elders'] = d1['per_age_interval'].tolist().count('65+')
-  d4['no_of_visitors'] = d1['user_type'].tolist().count('Visitor')
-  d4['no_of_baptisms'] = d1['baptism_status'].tolist().count(True)
-  d4['no_of_volunteer'] = d1['volunteer_status'].count(True)
+    #  Transform
+    d4 = {}
+    d4['no_of_families'] = d2.fam_id.nunique() 
+    d4['avg_fam_size'] = d2['no_fam_members'].mean()
+    d4['total_population'] = d1.id.nunique()
+    d4['no_of_females'] = d1['gender'].tolist().count('Female')
+    d4['no_of_males'] = d1['gender'].tolist().count('Male')
+    d4['no_of_kids'] = d1['per_age_interval'].tolist().count('1 - 12')
+    d4['no_of_teenagers'] = d1['per_age_interval'].tolist().count('13 - 16')
+    d4['no_of_youths'] = d1['per_age_interval'].tolist().count('17 - 40')
+    d4['no_of_adults'] = d1['per_age_interval'].tolist().count('41 - 64')
+    d4['no_of_elders'] = d1['per_age_interval'].tolist().count('65+')
+    d4['no_of_visitors'] = d1['user_type'].tolist().count('Visitor')
+    d4['no_of_baptisms'] = d1['baptism_status'].tolist().count(True)
+    d4['no_of_volunteers'] = d1['volunteer_status'].count(True)
+    d4['followup_completion_time'] = 
+    d4['max_followup_time'] = 
+    d4['min_followup_time'] = 
+    d4['visitorconversion_rate'] = 
+    d4['no_of_tasks'] = 
+    d4['no_of_tasks_todo'] = 
+    d4['no_of_tasks_inprogress'] = 
+    d4['no_of_tasks_completed'] = 
+    d4['no_of_vistors_followedup'] = 
+    d4['avg_followup_duration'] = 
 
-
-  d4['no_of_active_members'] = d1['member_status'].tolist().count('Active')
-  d4['no_of_inactive_members'] = d1['member_status'].tolist().count('Inactive')
-  d4['no_of_exmembers'] = d1['member_status'].tolist().count('Ex-Member')
-  d4['no_of_deceased_members'] = d1['member_status'].tolist().count('Deceased')
-  d4['no_of_churned_members'] = abs(d4['no_of_active_members'] - d4['no_of_inactive_members'])
-  d4['no_of_retained_members'] = d4['total_population'] - (d4['no_of_churned_members'] + d4['no_of_deceased_members'])
-  d4['load_date'] = datetime.today()
-  d4['date_key'] = str(date.isoformat(date.today())).replace('-', '')
+    d4['no_of_active_members'] = d1['member_status'].tolist().count('Active')
+    d4['no_of_inactive_members'] = d1['member_status'].tolist().count('Inactive')
+    d4['no_of_exmembers'] = d1['member_status'].tolist().count('Ex-Member')
+    d4['no_of_deceased_members'] = d1['member_status'].tolist().count('Deceased')
+    d4['no_of_churned_members'] = abs(d4['no_of_active_members'] - d4['no_of_inactive_members'])
+    d4['no_of_retained_members'] = d4['total_population'] - (d4['no_of_churned_members'] + d4['no_of_deceased_members'])
+    d4['load_date'] = datetime.today()
+    d4['date_key'] = str(date.isoformat(date.today())).replace('-', '')
+        
     
-  
-  def celebrate(m):
-    today = date.today()
-    m =[]
-    for i in pd.to_datetime(m):
-      if today.day == i.day and today.month == i.month:
-        m.append(i)
-    return len(m)
+    def celebrate(m):
+        today = date.today()
+        m =[]
+        for i in pd.to_datetime(m):
+            if today.day == i.day and today.month == i.month:
+                m.append(i)
+        return len(m)
 
-  d4['no_of_birthdays'] = celebrate(d1.dob)
-  d4['no_of_anniversaries'] = celebrate(d2.fam_wedding_date)
-  d4['no_of_new_members'] = len(d1.per_join_date.apply(lambda x: pd.to_datetime(x) == date.today()))
+    d4['no_of_birthdays'] = celebrate(d1.dob)
+    d4['no_of_anniversaries'] = celebrate(d2.fam_wedding_date)
+    d4['no_of_new_members'] = len(d1.per_join_date.apply(lambda x: pd.to_datetime(x) == date.today()))
 
-  d4 = pd.DataFrame(d4, index=[0])
-  # d4['church_fact_key'] = d4.index + 1
+    d4 = pd.DataFrame(d4, index=[0])
+    # d4['church_fact_key'] = d4.index + 1
 
-  # Load
-  d4 = d4[['date_key',
-      'total_population', 'no_of_families', 'no_of_males', 'no_of_females',
-      'no_of_kids', 'no_of_teenagers', 'no_of_youths', 'no_of_adults',
-      'no_of_elders', 'no_of_birthdays', 'no_of_anniversaries',
-      'no_of_baptisms', 'no_of_new_members', 'no_of_active_members',
-      'no_of_inactive_members', 'no_of_exmembers', 'no_of_visitors',
-      'no_of_deceased_members', 'no_of_churned_members',
-      'no_of_retained_members', 'load_date']]
-  return d4.to_sql('church_fact', con=target, schema = sch , if_exists='append', index=False)
+    # Load
+    d4 = d4[['date_key',
+        'total_population', 'no_of_families', 'no_of_males', 'no_of_females',
+        'no_of_kids', 'no_of_teenagers', 'no_of_youths', 'no_of_adults',
+        'no_of_elders', 'no_of_birthdays', 'no_of_anniversaries',
+        'no_of_baptisms', 'no_of_new_members', 'no_of_active_members',
+        'no_of_inactive_members', 'no_of_exmembers', 'no_of_visitors',
+        'no_of_deceased_members', 'no_of_churned_members',
+        'no_of_retained_members', 'load_date']]
+    return d4.to_sql('church_fact', con=target, schema = sch , if_exists='append', index=False)

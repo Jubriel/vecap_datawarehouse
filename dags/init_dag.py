@@ -100,6 +100,13 @@ per_dim = PythonOperator(
     op_kwargs= {'sch':'rccghge', 'source':source, 'target':target},
     dag = etl_dag
 )
+
+pro_dim = PythonOperator(
+    task_id = 'proces_dim',
+    python_callable=process_dim,
+    op_kwargs= {'sch':'rccghge', 'source':source, 'target':target},
+    dag = etl_dag
+)
 per_f = PythonOperator(
     task_id = 'person_fact',
     python_callable=per_fact,
@@ -113,4 +120,4 @@ ch_f = PythonOperator(
     dag = etl_dag
 )
 
-dat >> fam >> per_dim >> [per_f, ch_f]
+dat >> per_dim >> fam >> pro_dim >> [per_f, ch_f]

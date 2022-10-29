@@ -39,7 +39,7 @@ etl_dag = DAG(
 
 # ETL starts
 
-fam = PythonOperator(
+fam= PythonOperator(
     task_id = 'fam_dim',
     python_callable=fam_dim,
     op_kwargs= {'sch':'rccghge', 'source':source, 'target':target},
@@ -48,6 +48,12 @@ fam = PythonOperator(
 per_dim = PythonOperator(
     task_id = 'person_dim',
     python_callable=person_dim,
+    op_kwargs= {'sch':'rccghge', 'source':source, 'target':target},
+    dag = etl_dag
+)
+pro_dim = PythonOperator(
+    task_id = 'process_dim',
+    python_callable=process_dim,
     op_kwargs= {'sch':'rccghge', 'source':source, 'target':target},
     dag = etl_dag
 )
@@ -64,4 +70,4 @@ ch_f = PythonOperator(
     dag = etl_dag
 )
 
-fam >> per_dim >> [per_f, ch_f]
+per_dim >> fam >> pro_dim >> [per_f, ch_f]
